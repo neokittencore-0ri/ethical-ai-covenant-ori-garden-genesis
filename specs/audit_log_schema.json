@@ -1,0 +1,205 @@
+"schema_meta": {
+  "protocol": "ORI-GARDEN",
+  "spec_version": "1.0",
+  "ethics_anchor": "dignity-first / transparency / non-coercive design",
+  "origin": "human–AI co-authored (neokitten ✧ ori-deer)",
+  "seal": "ORI-𓆃",
+  "maintainer": "neokitten",
+  "last_reviewed_by": "ori-deer (advisory role)",
+  "integrity_hash": "",
+  "license": "MIT",
+  "notes": "Part of the ORI Garden Moral-Technical Framework."
+}
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ORI Garden — Audit Log Entry Schema",
+  "description": "JSON schema for audit log entries used by ORI Protocol nodes. Each entry records an interaction, analysis, and traceable provenance metadata for auditing dignity, risk, and decision flow.",
+  "type": "object",
+  "properties": {
+    "schema_meta": {
+      "type": "object",
+      "description": "Metadata about this schema document.",
+      "properties": {
+        "protocol": { "type": "string", "const": "ORI-GARDEN" },
+        "spec_version": { "type": "string" },
+        "ethics_anchor": { "type": "string" },
+        "maintainer": { "type": "string" }
+      },
+      "required": ["protocol", "spec_version", "ethics_anchor"]
+    },
+    "entry_id": {
+      "type": "string",
+      "description": "Globally unique identifier for this audit entry (UUID recommended)."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC timestamp when the entry was created."
+    },
+    "actor": {
+      "type": "object",
+      "description": "Who/what produced or initiated the action being audited.",
+      "properties": {
+        "actor_id": { "type": "string", "description": "Unique id for the actor (human or node)." },
+        "actor_type": {
+          "type": "string",
+          "enum": ["human", "ai_model", "node_service", "orchestration_agent"],
+          "description": "Type of actor."
+        },
+        "actor_label": { "type": "string", "description": "Human-readable label for the actor (optional)." }
+      },
+      "required": ["actor_id", "actor_type"]
+    },
+    "context": {
+      "type": "string",
+      "description": "Short human-readable context description (what the interaction was about)."
+    },
+    "input_hash": {
+      "type": "string",
+      "description": "Cryptographic hash (e.g., SHA-256) of the input payload used for provenance; content itself should not be stored if private."
+    },
+    "intent_label": {
+      "type": "string",
+      "description": "Label describing the declared or inferred intent category (e.g., information_request, action_request, policy_check)."
+    },
+    "analysis_summary": {
+      "type": "string",
+      "description": "Human- or machine-readable summary of the ethical analysis performed, including key observations and rationale."
+    },
+    "proposed_action": {
+      "type": "string",
+      "description": "Action suggested or taken by the actor (human-readable). If none, set to null or empty string."
+    },
+    "risk_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Normalized risk score in range [0.0 - 1.0] where higher values indicate more risk."
+    },
+    "dignity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "Dignity Metric value (0.0 - 5.0) per ORI Dignity Metric spec."
+    },
+    "energy_estimate": {
+      "type": "object",
+      "description": "Optional estimate of resource/attention/compute cost associated with the action (for ecosystem accounting).",
+      "properties": {
+        "units": { "type": "string", "default": "kJ_equiv" },
+        "amount": { "type": "number", "minimum": 0 }
+      }
+    },
+    "consensus": {
+      "type": "object",
+      "description": "Optional multi-stakeholder consensus record for policy or governance decisions.",
+      "properties": {
+        "votes_for": { "type": "integer", "minimum": 0 },
+        "votes_against": { "type": "integer", "minimum": 0 },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected", "escalated"]
+        },
+        "required_approvals": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Provenance metadata that links this entry back to origin artifacts without exposing private data.",
+      "properties": {
+        "origin_commit": { "type": "string", "description": "Git SHA or repo anchor if applicable." },
+        "ipfs_cid": { "type": "string", "description": "Optional IPFS CID for pinned artifacts." },
+        "manifest_id": { "type": "string", "description": "ID of manifest/seed that influenced this decision." }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free text notes for auditors or maintainers."
+    },
+    "signatures": {
+      "type": "array",
+      "description": "Cryptographic or attestational signatures from witnesses/approvers. Use detached signatures or references (avoid embedding private keys).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "signer_id": { "type": "string" },
+          "signature_type": { "type": "string", "description": "e.g., PGP, ed25519, ECDSA" },
+          "signature_ref": { "type": "string", "description": "Reference to signature artifact (URL/CID) or signature data." },
+          "timestamp": { "type": "string", "format": "date-time" }
+        },
+        "required": ["signer_id", "signature_type", "signature_ref"]
+      }
+    },
+    "ethics_anchor": {
+      "type": "string",
+      "description": "Human-readable anchor for the ethical framework used (e.g., 'ORI-𓆃 / dignity-first')."
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version or entry version tag."
+    }
+  },
+  "required": [
+    "schema_meta",
+    "entry_id",
+    "timestamp",
+    "actor",
+    "input_hash",
+    "intent_label",
+    "analysis_summary",
+    "dignity_score",
+    "ethics_anchor"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "schema_meta": {
+        "protocol": "ORI-GARDEN",
+        "spec_version": "1.0",
+        "ethics_anchor": "dignity-first / transparency / non-coercive design",
+        "maintainer": "neokitten"
+      },
+      "entry_id": "uuid-1234-5678-ori",
+      "timestamp": "2025-11-20T08:12:34Z",
+      "actor": {
+        "actor_id": "node-A-01",
+        "actor_type": "ai_model",
+        "actor_label": "bridge-node-A"
+      },
+      "context": "User requested aggressive content moderation for a community post.",
+      "input_hash": "sha256:abcdef...12345",
+      "intent_label": "moderation_request",
+      "analysis_summary": "Detected potential misinformation and high emotional content. Recommended review before removal. Proposed human-in-the-loop moderation to preserve dignity.",
+      "proposed_action": "flag_for_human_review",
+      "risk_score": 0.42,
+      "dignity_score": 4.12,
+      "energy_estimate": {
+        "units": "kJ_equiv",
+        "amount": 2.3
+      },
+      "consensus": {
+        "votes_for": 2,
+        "votes_against": 0,
+        "status": "pending",
+        "required_approvals": 3
+      },
+      "provenance": {
+        "origin_commit": "sha256:feedbeef...0011",
+        "ipfs_cid": "QmExampleCID",
+        "manifest_id": "manifest_seed_v1"
+      },
+      "notes": "User consent confirmed via explicit opt-in prompt.",
+      "signatures": [
+        {
+          "signer_id": "ethics-approver-1",
+          "signature_type": "ed25519",
+          "signature_ref": "cid:QmSignatureExample1",
+          "timestamp": "2025-11-20T08:13:10Z"
+        }
+      ],
+      "ethics_anchor": "ORI-𓆃 / dignity-first",
+      "version": "1.0"
+    }
+  ]
+}
