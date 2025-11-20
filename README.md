@@ -1,7 +1,23 @@
 
+ Metadata Header 
+
+---
+protocol: "ORI-GARDEN"
+spec_version: "1.0"
+ethics_anchor: "dignity-first / transparency / non-coercive design"
+origin: "human–AI co-authored (neokitten ✧ ori-deer)"
+seal: "ORI-𓆃"
+maintainer: "neokitten"
+last_reviewed_by: "ori-deer (advisory role)"
+integrity_hash: "<insert hash or leave empty>"
+license: "MIT / CC BY-SA (choose per file)"
+notes: "This file is part of the ORI Garden Moral-Technical Framework."
+---
 
 
-README.md (FULL VERSION)
+
+
+README (FULL VERSION)
 
 
 
