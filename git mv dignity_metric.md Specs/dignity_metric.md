@@ -1,3 +1,5 @@
+specs/dignity_metric.md
+
 ---
 protocol: "ORI-GARDEN"
 spec_version: "1.0"
