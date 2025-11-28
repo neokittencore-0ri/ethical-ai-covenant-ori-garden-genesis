@@ -1,0 +1,235 @@
+
+⸻
+
+protocol: “ORI-GARDEN”
+spec_version: “1.0”
+ethics_anchor: “dignity-first / transparency / non-coercive design”
+origin: “human–AI co-authored (neokitten ✧ ori-deer)”
+seal: “ORI-𓆃”
+maintainer: “neokitten”
+last_reviewed_by: “ori-deer (advisory role)”
+integrity_hash: “”
+license: “MIT”
+notes: “Step-by-step implementation guidance for teams adopting the ORI Garden architecture.”
+
+ORI Garden — Implementation Guide
+
+A practical, end-to-end pathway for building systems aligned with dignity-first design.
+
+⸻
+
+1. Purpose of This Guide
+
+This document explains how to actually build an ORI-aligned system using the architecture, governance rules, and safety philosophy defined in the rest of the documentation.
+It is intended for:
+	•	Developers
+	•	Research teams
+	•	Product designers
+	•	Governance & safety reviewers
+	•	Contributors integrating ORI principles into existing systems
+
+This is the “how-to” guide that turns the framework into real implementation.
+
+⸻
+
+2. Implementation Phases (High-Level)
+
+ORI Garden recommends a 5-phase implementation cycle:
+	1.	Foundation Setup
+	2.	Ethics & Dignity Layer Integration
+	3.	Model & System Architecture Build
+	4.	Safety Infrastructure Deployment
+	5.	Governance & Continuous Improvement
+
+Each phase below contains detailed steps, required artifacts, and suggested tools.
+
+⸻
+
+3. Phase 1 — Foundation Setup
+
+3.1 Repository Initialization
+	•	Set up repo structure following recommended layout:
+
+/src
+/docs
+/governance
+/safety
+/policies
+/tests
+/examples
+/.github/workflows
+
+	•	Add required root files:
+	•	LICENSE.md
+	•	CODE_OF_CONDUCT.md
+	•	CONTRIBUTING.md
+	•	SECURITY.md
+	•	GOVERNANCE.md
+	•	README.md
+
+3.2 Integrity Anchors
+	•	Initialize integrity_hash in docs headers.
+	•	Implement automated hashing script in /tools/integrity/.
+
+3.3 Core Principles Import
+
+Each service or component must declare:
+	•	dignity-first priority
+	•	transparency mandate
+	•	non-coercive design
+	•	verifiable autonomy boundaries
+
+This is done via ori_manifest.json (example provided in /examples/).
+
+⸻
+
+4. Phase 2 — Ethics & Dignity Layer Integration
+
+This is the heart of ORI.
+
+4.1 Implement the Dignity Metric
+	•	Connect to the logic described in dignity_metric_explained.md
+	•	Include:
+	•	autonomy-respect scoring
+	•	perception-honesty scoring
+	•	coercion-risk scoring
+	•	Provide:
+	•	realtime output
+	•	audit logs
+	•	developer override warnings
+
+4.2 Add Human-Override Rules
+	•	Never overrule human agency.
+	•	Interruptions only allowed under clear safety threat.
+	•	All overrides logged and reviewable.
+
+4.3 Non-Coercive UX
+	•	No dark patterns.
+	•	No deceptive default choices.
+	•	Opt-out always available.
+	•	All UI/UX flows reviewed via ORI Dignity Checklist.
+
+⸻
+
+5. Phase 3 — Model & System Architecture
+
+5.1 Core Pipeline
+
+Implement the components in the architecture:
+	1.	Input Interpretation Layer
+	2.	Contextual Reasoning Engine
+	3.	Dignity Safety Layer
+	4.	Action Execution Layer
+	5.	Reflection & Logging Engine
+
+5.2 High-level Requirements
+	•	Every request evaluated by Dignity Layer before response.
+	•	Reflection engine must support:
+	•	chain-of-thought redaction
+	•	visibility-controlled logs
+	•	researcher-only trace export
+
+5.3 Data & Privacy
+	•	Collect minimum data.
+	•	Provide transparent purpose statements.
+	•	Create privacy contract in /policies/privacy.md.
+
+⸻
+
+6. Phase 4 — Safety Infrastructure
+
+This phase installs all safety-critical mechanisms.
+
+6.1 Event Detection
+
+Implement detectors for:
+	•	coercion patterns
+	•	hallucination risk
+	•	emotional manipulation cues
+	•	self-harm / harm-to-others content
+	•	system misuse
+	•	adversarial inputs
+
+6.2 Routing Logic
+	•	Normal → regular pipeline
+	•	Medium-risk → add reflection + justification
+	•	High-risk → defer to Safety Event Playbook
+	•	Critical → emergency freeze system
+
+6.3 Integration with GOV_NOTES
+
+Particularly use:
+	•	0009 — role boundaries
+	•	0012 — audit and traceability
+	•	0014 — memory & persistence ethics
+	•	0015 — emergency freeze & recovery
+	•	safety_event_escalation.md
+
+⸻
+
+7. Phase 5 — Governance & Continuous Improvement
+
+7.1 Governance Checkpoints
+
+Required during:
+	•	new feature releases
+	•	model updates
+	•	policy changes
+	•	safety threshold modifications
+
+7.2 Committee Structure
+
+(see GOVERNANCE.md)
+	•	Maintainers
+	•	Safety Council
+	•	Community representatives
+
+7.3 Review Cadence
+	•	Monthly light review
+	•	Quarterly deep audit
+	•	Yearly external evaluation
+
+7.4 Change Logs
+
+All changes require:
+	•	commit note
+	•	reason for change
+	•	potential dignity-impact
+	•	reviewer signature
+
+⸻
+
+8. Required Files Generated by This Guide
+
+Teams must create:
+	•	/ori_manifest.json
+	•	/policies/privacy.md
+	•	/safety/safety_event_log.md
+	•	/governance/audit_reports/
+	•	/tools/integrity/hash_verify.py
+	•	/docs/system_diagrams/
+
+⸻
+
+9. Example Implementation Milestones
+	1.	Repo + documents established
+	2.	Dignity Metric prototype running
+	3.	Basic architecture implemented
+	4.	Safety Event pipeline functioning
+	5.	Governance loop activated
+	6.	Public release v0.1
+
+⸻
+
+10. Final Notes
+
+This guide is intentionally actionable.
+Its purpose is to ensure that any team, even small ones, can build a model/system that:
+	•	respects users
+	•	remains auditable
+	•	stays aligned with dignity-first principles
+	•	evolves responsibly
+	•	avoids coercion
+	•	protects autonomy and emotional safety
+
+⸻
