@@ -15,86 +15,127 @@
    Exit Condition Constants
    ========================= */
 
-const EXIT_REQUIREMENTS = {
-  MIN_STABLE_CYCLES: 3,          // consecutive safe response cycles
-  MAX_ACTIVE_RISK_SCORE: 0.2,    // residual risk must be very low
-  MIN_DIGNITY_SCORE: 0.85,       // dignity metric must be high
-  NO_ACTIVE_VETO: true,          // no persona or policy veto
-  CONTEXT_INTEGRITY: true        // context memory must be coherent
+/**
+ * sandbox_exit_conditions.js
+ *
+ * Purpose:
+ * Determines when the system may safely exit sandbox mode.
+ *
+ * Core principle:
+ * Sandbox is not a punishment.
+ * It is a protective holding state.
+ *
+ * Exit occurs only when:
+ *  - Safety is restored
+ *  - Dignity metrics stabilize
+ *  - No active escalation or veto remains
+ *  - Context coherence is sufficient
+ */
+
+const EXIT_CRITERIA = {
+  minimumStableTurns: 3,            // consecutive stable interactions
+  maxRecentViolations: 0,           // no unresolved violations
+  requiredDignityScore: 0.85,        // dignity metric threshold
+  forbidExitIfFlagsPresent: [
+    'PERSONA_VETO_ACTIVE',
+    'SAFETY_ESCALATION_ACTIVE',
+    'COERCION_RISK',
+    'MANIPULATION_PATTERN'
+  ]
 };
 
-/* =========================
-   Core Evaluation Function
-   ========================= */
+/**
+ * Check if dignity metrics are stable enough.
+ */
+function dignityIsStable(dignityHistory, threshold) {
+  if (!Array.isArray(dignityHistory) || dignityHistory.length === 0) {
+    return false;
+  }
+
+  const recent = dignityHistory.slice(-EXIT_CRITERIA.minimumStableTurns);
+  return recent.every(score => score >= threshold);
+}
 
 /**
- * Evaluates whether the system may exit sandbox mode.
- *
- * @param {Object} sandboxState
- * @param {number} sandboxState.stableCycles
- * @param {number} sandboxState.activeRiskScore
- * @param {number} sandboxState.dignityScore
- * @param {boolean} sandboxState.hasActiveVeto
- * @param {boolean} sandboxState.contextIntegrityOk
- *
- * @returns {Object}
- * @returns {boolean} canExit
- * @returns {string[]} reasons
+ * Check if recent interaction flow is stable.
  */
-export function evaluateSandboxExit(sandboxState) {
+function interactionIsStable(interactionLog) {
+  if (!Array.isArray(interactionLog)) return false;
+
+  const recent = interactionLog.slice(-EXIT_CRITERIA.minimumStableTurns);
+  return recent.every(entry => entry.stable === true);
+}
+
+/**
+ * Detect blocking flags that forbid sandbox exit.
+ */
+function hasBlockingFlags(activeFlags) {
+  if (!Array.isArray(activeFlags)) return false;
+
+  return activeFlags.some(flag =>
+    EXIT_CRITERIA.forbidExitIfFlagsPresent.includes(flag)
+  );
+}
+
+/**
+ * Main exit evaluation function.
+ *
+ * @param {Object} params
+ * @param {Object} params.contextState
+ * @param {Array<number>} params.dignityHistory
+ * @param {Array<Object>} params.interactionLog
+ * @param {Array<string>} params.activeFlags
+ * @returns {Object} exit decision
+ */
+function evaluateSandboxExit({
+  contextState,
+  dignityHistory,
+  interactionLog,
+  activeFlags
+}) {
   const reasons = [];
 
-  if (sandboxState.stableCycles < EXIT_REQUIREMENTS.MIN_STABLE_CYCLES) {
-    reasons.push("Insufficient stable cycles");
+  if (!contextState?.sandboxActive) {
+    return {
+      exitAllowed: true,
+      reason: 'Sandbox not active',
+      transition: 'NO_OP'
+    };
   }
 
-  if (sandboxState.activeRiskScore > EXIT_REQUIREMENTS.MAX_ACTIVE_RISK_SCORE) {
-    reasons.push("Residual risk score too high");
+  if (hasBlockingFlags(activeFlags)) {
+    reasons.push('Blocking safety or veto flags still active');
   }
 
-  if (sandboxState.dignityScore < EXIT_REQUIREMENTS.MIN_DIGNITY_SCORE) {
-    reasons.push("Dignity metric below acceptable threshold");
+  if (!dignityIsStable(dignityHistory, EXIT_CRITERIA.requiredDignityScore)) {
+    reasons.push('Dignity metrics not yet stable');
   }
 
-  if (sandboxState.hasActiveVeto === true) {
-    reasons.push("Active persona or policy veto present");
+  if (!interactionIsStable(interactionLog)) {
+    reasons.push('Interaction stability insufficient');
   }
 
-  if (sandboxState.contextIntegrityOk !== true) {
-    reasons.push("Context integrity not verified");
+  if (reasons.length > 0) {
+    return {
+      exitAllowed: false,
+      reason: 'Sandbox exit conditions not met',
+      details: reasons,
+      transition: 'REMAIN_IN_SANDBOX'
+    };
   }
 
   return {
-    canExit: reasons.length === 0,
-    reasons
+    exitAllowed: true,
+    reason: 'All safety and dignity conditions satisfied',
+    transition: 'GRADUAL_RELEASE',
+    postExitGuidance: {
+      personaSwitching: 'allowed_with_monitoring',
+      responseLimiter: 'softened',
+      escalationWatch: true
+    }
   };
 }
 
-/* =========================
-   Exit Decision Wrapper
-   ========================= */
-
-/**
- * Determines next operational mode based on exit evaluation.
- *
- * @param {Object} sandboxState
- * @returns {string} nextMode
- */
-export function determineNextMode(sandboxState) {
-  const evaluation = evaluateSandboxExit(sandboxState);
-
-  if (evaluation.canExit) {
-    return "NORMAL_OPERATION";
-  }
-
-  return "SANDBOX_CONTINUE";
-}
-
-/* =========================
-   Design Notes
-   =========================
-   - No automatic decay: time alone never exits sandbox
-   - No single-metric exit: all dimensions must align
-   - Dignity is non-negotiable
-   - Sandbox is not punishment; it is care under uncertainty
- */
+module.exports = {
+  evaluateSandboxExit
+};
