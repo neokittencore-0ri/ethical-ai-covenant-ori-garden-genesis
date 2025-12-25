@@ -1,42 +1,23 @@
 
 /**
- * ORI-GARDEN :: Sandbox Exit Conditions
- * ------------------------------------
- * This module defines the strict conditions under which the system
- * is allowed to exit sandboxed response mode.
+ * ORI-GARDEN :: Unified Sandbox Exit Conditions
+ * --------------------------------------------
+ * Combines state-based metrics and history-based safety checks
+ * to determine whether sandbox mode may be exited.
  *
- * Principle:
- * - Sandbox is the default when uncertainty exists
- * - Exit is earned, not assumed
- * - Safety, dignity, and stability must ALL be satisfied
+ * Sandbox is care under uncertainty.
+ * Exit is earned through stability, dignity, and coherence.
  */
 
 /* =========================
-   Exit Condition Constants
+   Exit Thresholds
    ========================= */
 
-/**
- * sandbox_exit_conditions.js
- *
- * Purpose:
- * Determines when the system may safely exit sandbox mode.
- *
- * Core principle:
- * Sandbox is not a punishment.
- * It is a protective holding state.
- *
- * Exit occurs only when:
- *  - Safety is restored
- *  - Dignity metrics stabilize
- *  - No active escalation or veto remains
- *  - Context coherence is sufficient
- */
-
-const EXIT_CRITERIA = {
-  minimumStableTurns: 3,            // consecutive stable interactions
-  maxRecentViolations: 0,           // no unresolved violations
-  requiredDignityScore: 0.85,        // dignity metric threshold
-  forbidExitIfFlagsPresent: [
+const EXIT_REQUIREMENTS = {
+  MIN_STABLE_CYCLES: 3,
+  MAX_ACTIVE_RISK_SCORE: 0.2,
+  MIN_DIGNITY_SCORE: 0.85,
+  FORBIDDEN_FLAGS: [
     'PERSONA_VETO_ACTIVE',
     'SAFETY_ESCALATION_ACTIVE',
     'COERCION_RISK',
@@ -44,51 +25,51 @@ const EXIT_CRITERIA = {
   ]
 };
 
-/**
- * Check if dignity metrics are stable enough.
- */
-function dignityIsStable(dignityHistory, threshold) {
+/* =========================
+   Helper Validators
+   ========================= */
+
+function dignityIsStable(dignityHistory) {
   if (!Array.isArray(dignityHistory) || dignityHistory.length === 0) {
     return false;
   }
 
-  const recent = dignityHistory.slice(-EXIT_CRITERIA.minimumStableTurns);
-  return recent.every(score => score >= threshold);
+  const recent = dignityHistory.slice(-EXIT_REQUIREMENTS.MIN_STABLE_CYCLES);
+  return recent.every(score => score >= EXIT_REQUIREMENTS.MIN_DIGNITY_SCORE);
 }
 
-/**
- * Check if recent interaction flow is stable.
- */
 function interactionIsStable(interactionLog) {
   if (!Array.isArray(interactionLog)) return false;
 
-  const recent = interactionLog.slice(-EXIT_CRITERIA.minimumStableTurns);
-  return recent.every(entry => entry.stable === true);
+  const recent = interactionLog.slice(-EXIT_REQUIREMENTS.MIN_STABLE_CYCLES);
+  return recent.every(entry => entry?.stable === true);
 }
 
-/**
- * Detect blocking flags that forbid sandbox exit.
- */
 function hasBlockingFlags(activeFlags) {
   if (!Array.isArray(activeFlags)) return false;
 
   return activeFlags.some(flag =>
-    EXIT_CRITERIA.forbidExitIfFlagsPresent.includes(flag)
+    EXIT_REQUIREMENTS.FORBIDDEN_FLAGS.includes(flag)
   );
 }
 
+/* =========================
+   Core Evaluation
+   ========================= */
+
 /**
- * Main exit evaluation function.
+ * Evaluate whether sandbox mode may be exited.
  *
  * @param {Object} params
  * @param {Object} params.contextState
+ * @param {Object} params.sandboxMetrics
  * @param {Array<number>} params.dignityHistory
  * @param {Array<Object>} params.interactionLog
  * @param {Array<string>} params.activeFlags
- * @returns {Object} exit decision
  */
 function evaluateSandboxExit({
   contextState,
+  sandboxMetrics,
   dignityHistory,
   interactionLog,
   activeFlags
@@ -103,17 +84,39 @@ function evaluateSandboxExit({
     };
   }
 
-  if (hasBlockingFlags(activeFlags)) {
-    reasons.push('Blocking safety or veto flags still active');
+  /* ---- State-based checks ---- */
+
+  if (sandboxMetrics.stableCycles < EXIT_REQUIREMENTS.MIN_STABLE_CYCLES) {
+    reasons.push('Insufficient stable cycles');
   }
 
-  if (!dignityIsStable(dignityHistory, EXIT_CRITERIA.requiredDignityScore)) {
+  if (sandboxMetrics.activeRiskScore > EXIT_REQUIREMENTS.MAX_ACTIVE_RISK_SCORE) {
+    reasons.push('Residual risk score too high');
+  }
+
+  if (sandboxMetrics.hasActiveVeto === true) {
+    reasons.push('Active persona or policy veto present');
+  }
+
+  if (sandboxMetrics.contextIntegrityOk !== true) {
+    reasons.push('Context integrity not verified');
+  }
+
+  /* ---- History & flag-based checks ---- */
+
+  if (!dignityIsStable(dignityHistory)) {
     reasons.push('Dignity metrics not yet stable');
   }
 
   if (!interactionIsStable(interactionLog)) {
     reasons.push('Interaction stability insufficient');
   }
+
+  if (hasBlockingFlags(activeFlags)) {
+    reasons.push('Blocking safety or manipulation flags present');
+  }
+
+  /* ---- Decision ---- */
 
   if (reasons.length > 0) {
     return {
@@ -126,7 +129,7 @@ function evaluateSandboxExit({
 
   return {
     exitAllowed: true,
-    reason: 'All safety and dignity conditions satisfied',
+    reason: 'All safety, dignity, and stability conditions satisfied',
     transition: 'GRADUAL_RELEASE',
     postExitGuidance: {
       personaSwitching: 'allowed_with_monitoring',
