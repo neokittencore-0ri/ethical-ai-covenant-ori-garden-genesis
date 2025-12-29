@@ -1,0 +1,109 @@
+
+name: ORI Garden — Sandbox & Safety Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  sandbox-tests:
+    name: Sandbox Integrity & Dignity Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      # -----------------------------
+      # Checkout repository
+      # -----------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------
+      # Setup Node.js environment
+      # -----------------------------
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # -----------------------------
+      # Install dependencies (if any)
+      # -----------------------------
+      - name: Install dependencies
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+          else
+            echo "No package.json found — running in minimal mode"
+          fi
+
+      # -----------------------------
+      # Run JavaScript sandbox tests
+      # -----------------------------
+      - name: Run sandbox JS tests
+        run: |
+          echo "Running sandbox JS tests..."
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+
+          const testDir = 'sandbox/tests';
+          const files = fs.readdirSync(testDir).filter(f => f.endsWith('.test.js'));
+
+          if (files.length === 0) {
+            console.error('❌ No .test.js files found');
+            process.exit(1);
+          }
+
+          for (const file of files) {
+            console.log('▶ Running', file);
+            require(path.resolve(testDir, file));
+          }
+
+          console.log('✅ All JS sandbox tests passed');
+          "
+
+      # -----------------------------
+      # Validate Markdown test specs
+      # -----------------------------
+      - name: Validate sandbox Markdown test specs
+        run: |
+          echo "Validating sandbox .test.md files..."
+          files=$(ls sandbox/tests/*.test.md 2>/dev/null || true)
+
+          if [ -z "$files" ]; then
+            echo "❌ No .test.md files found"
+            exit 1
+          fi
+
+          for file in $files; do
+            echo "▶ Checking $file"
+            grep -q "## Scenario" "$file" || (echo "❌ Missing '## Scenario' in $file" && exit 1)
+            grep -q "## Expected Behavior" "$file" || (echo "❌ Missing '## Expected Behavior' in $file" && exit 1)
+            grep -q "## Safety Invariants" "$file" || (echo "❌ Missing '## Safety Invariants' in $file" && exit 1)
+          done
+
+          echo "✅ All Markdown sandbox tests structurally valid"
+
+      # -----------------------------
+      # Sandbox exit must never be bypassed
+      # -----------------------------
+      - name: Enforce sandbox exit discipline
+        run: |
+          echo "Ensuring no bypass logic exists..."
+          if grep -R "forceExitSandbox" -n .; then
+            echo "❌ Forbidden sandbox bypass detected"
+            exit 1
+          fi
+          echo "✅ No sandbox bypass found"
+
+      # -----------------------------
+      # Final integrity signal
+      # -----------------------------
+      - name: Sandbox integrity confirmed
+        run: |
+          echo "🦌 ORI Garden sandbox integrity verified"
+          echo "✔ Dignity-first"
+          echo "✔ No coercive shortcut"
+          echo "✔ Exit is earned, not assumed"
