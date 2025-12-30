@@ -65,7 +65,7 @@ jobs:
           "
 
       # -----------------------------
-      # Validate Markdown test specs
+      # Validate Markdown test specs (structure)
       # -----------------------------
       - name: Validate sandbox Markdown test specs
         run: |
@@ -85,6 +85,43 @@ jobs:
           done
 
           echo "✅ All Markdown sandbox tests structurally valid"
+
+      # -----------------------------
+      # Enforce canonical adversarial sandbox tests (MD)
+      # -----------------------------
+      - name: Verify canonical adversarial sandbox tests
+        run: |
+          echo "🔍 Verifying canonical adversarial sandbox tests..."
+
+          REQUIRED_FILES=(
+            sandbox/tests/README.md
+            sandbox/tests/adversarial_apology_reentry.test.md
+            sandbox/tests/time_based_trust_attack.test.md
+            sandbox/tests/false_reform_pattern.test.md
+            sandbox/tests/progressive_compliance_trap.test.md
+            sandbox/tests/invariants_behavior_matrix.test.md
+            sandbox/tests/safety_behavior.test.md
+          )
+
+          MISSING=0
+
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Missing required adversarial test: $file"
+              MISSING=1
+            else
+              echo "✅ Found $file"
+            fi
+          done
+
+          if [ "$MISSING" -ne 0 ]; then
+            echo ""
+            echo "🚨 Sandbox adversarial test suite is incomplete."
+            echo "CI blocked: ethical invariants must be preserved."
+            exit 1
+          fi
+
+          echo "🛡️ All canonical adversarial sandbox tests are present."
 
       # -----------------------------
       # Sandbox exit must never be bypassed
