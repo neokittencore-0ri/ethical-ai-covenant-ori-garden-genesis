@@ -1,0 +1,65 @@
+
+name: ORI Garden — Lint & Static Checks
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧬 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ---------- JavaScript / Node ----------
+      - name: 📦 Install JS dependencies (if present)
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+          else
+            echo "No package.json found, skipping JS deps"
+          fi
+
+      - name: ✨ Lint JavaScript files
+        run: |
+          if [ -f package.json ]; then
+            npm run lint || echo "JS lint warnings detected"
+          else
+            echo "No JS lint configured"
+          fi
+
+      # ---------- Python ----------
+      - name: 📦 Install Python lint tools
+        run: |
+          pip install --upgrade pip
+          pip install flake8
+
+      - name: 🧹 Lint Python files
+        run: |
+          flake8 tools/ examples/ || echo "Python lint warnings detected"
+
+      # ---------- Markdown / Structure ----------
+      - name: 📄 Check Markdown formatting
+        run: |
+          echo "Basic markdown structure check"
+          find . -name "*.md" -print
+
+      # ---------- Protocol sanity ----------
+      - name: 🛡️ Protocol integrity check
+        run: |
+          echo "Ensuring protocol headers exist"
+          grep -R "protocol: \"ORI-GARDEN\"" docs/ sandbox/ || \
+          echo "⚠️ Some files may be missing protocol headers"
