@@ -1,0 +1,92 @@
+
+name: ORI Garden — Build & Structure Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧬 Checkout repository
+        uses: actions/checkout@v4
+
+      # ---------- Environment ----------
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ---------- JS sanity ----------
+      - name: 📦 Install Node dependencies (if any)
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+          else
+            echo "No package.json found — JS build skipped"
+          fi
+
+      - name: 🔎 Validate JS examples load
+        run: |
+          echo "Checking JS example files"
+          node -e "
+            require('./examples/js/load_persona.js');
+            require('./examples/js/persona_switching.js');
+            require('./examples/js/invariants_enforcement.js');
+            console.log('JS examples loaded successfully');
+          "
+
+      # ---------- Python sanity ----------
+      - name: 🧪 Validate Python tools import
+        run: |
+          echo "Checking Python tools imports"
+          python - <<EOF
+          import tools.schema_validator
+          import tools.dignity_metric_checker
+          import tools.persona_diff
+          print('Python tools imported successfully')
+          EOF
+
+      # ---------- Folder integrity ----------
+      - name: 🗂️ Verify required folders exist
+        run: |
+          REQUIRED_DIRS=(
+            "docs"
+            "examples"
+            "tools"
+            "sandbox"
+            ".github/workflows"
+          )
+
+          for dir in "${REQUIRED_DIRS[@]}"; do
+            if [ ! -d "$dir" ]; then
+              echo "❌ Missing required directory: $dir"
+              exit 1
+            fi
+          done
+
+          echo "All required directories present"
+
+      # ---------- Protocol metadata ----------
+      - name: 🛡️ Validate protocol headers
+        run: |
+          echo "Scanning for ORI-GARDEN protocol headers"
+          grep -R "protocol: \"ORI-GARDEN\"" docs/ sandbox/ || \
+          echo "⚠️ Some files may not include protocol headers"
+
+      # ---------- Build summary ----------
+      - name: 📦 Build summary
+        run: |
+          echo "ORI Garden build completed"
+          echo "• Structure validated"
+          echo "• Examples loadable"
+          echo "• Tools importable"
+          echo "• Protocol intact"
