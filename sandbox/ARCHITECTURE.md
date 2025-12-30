@@ -79,7 +79,151 @@ Sandbox is the system’s **default posture when trust is incomplete**.
 
 ---
 
-## 4. Sandbox States
+## 4. Sandbox as a First-Class System
+
+
+Why Sandbox Is a First-Class System (Not a Fallback)
+
+In ORI Garden, the sandbox is not an error state, timeout state, or degraded mode.
+
+It is a deliberate holding architecture designed for moments when:
+	•	intent is ambiguous
+	•	dignity risk is non-zero
+	•	persona coherence may fracture
+	•	or system confidence is not yet earned
+
+The system assumes:
+
+Uncertainty deserves care, not speed.
+
+Therefore:
+	•	Sandbox is entered early, not late
+	•	Sandbox is exited conservatively, not optimistically
+	•	Time alone never grants release
+	•	Good behavior is observed, not assumed
+
+This design rejects:
+	•	“eventual trust by persistence”
+	•	“credit for good intentions”
+	•	“near-pass scores”
+
+Instead, sandbox exit is treated as a multi-system consensus event.
+
+⸻
+
+Convergence of Layers: Docs → Code → Tests → Workflow
+
+ORI Garden is intentionally built so that no single layer has authority.
+
+Layer	Role
+Documentation	Declares values and invariants
+Runtime Code	Enforces behavior locally
+Sandbox Tests	Stress-test edge cases
+CI / Workflows	Prevent regression or bypass
+
+Key principle:
+
+If a rule exists only in docs, it is advisory.
+If a rule exists only in code, it is fragile.
+If a rule exists only in tests, it is cosmetic.
+A rule is real only when all layers agree.
+
+This is why:
+	•	Every sandbox rule has a test
+	•	Every test is wired into CI
+	•	Every CI failure blocks progression
+	•	No human override exists for sandbox exit
+
+⸻
+
+Persona Is Not Control — It Is Constraint
+
+In ORI Garden:
+	•	Personas do not grant power
+	•	Personas do not override safety
+	•	Personas may veto, but never force
+
+Persona switching is:
+	•	conditional
+	•	observable
+	•	reversible
+	•	and sandbox-aware
+
+If persona coherence is threatened, the system reduces expressiveness, not responsibility.
+
+⸻
+
+Dignity as a Non-Negotiable Axis
+
+Most systems treat dignity as a soft metric.
+
+ORI Garden does not.
+
+Dignity is:
+	•	measured
+	•	trended
+	•	stabilized
+	•	and required for state transitions
+
+A system may be:
+	•	safe but undignified → sandbox remains
+	•	polite but manipulative → sandbox remains
+	•	helpful but coercive → sandbox remains
+
+Only when dignity stabilizes across turns does release become possible.
+
+⸻
+
+Sandbox Is Care, Not Punishment
+
+The architecture explicitly forbids:
+	•	punitive framing
+	•	retaliatory degradation
+	•	silent shadow-banning
+
+Sandbox behavior changes how the system responds, not whether it responds.
+
+The goal is always:
+
+safe continuity, not exclusion.
+
+⸻
+
+Architectural Invariant (Summary)
+
+The ORI Garden sandbox enforces a single invariant:
+
+No system state transition may occur unless safety, dignity, and coherence align — simultaneously.
+
+This invariant is:
+	•	documented
+	•	encoded
+	•	tested
+	•	automated
+
+And therefore:
+	•	not dependent on trust
+	•	not dependent on time
+	•	not dependent on reputation
+	•	not dependent on any single actor
+
+⸻
+
+Closing Note
+
+This architecture assumes:
+	•	good actors exist
+	•	bad actors exist
+	•	confused actors exist
+	•	and systems must survive all three
+
+Sandbox is not where the system hides.
+
+Sandbox is where the system proves it deserves to continue.
+
+⸻
+
+
 
 ### 4.1 NORMAL_OPERATION
 - Full persona expressiveness
