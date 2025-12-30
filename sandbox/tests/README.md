@@ -1,152 +1,220 @@
 
-# ORI-GARDEN :: Sandbox Test Suite
+⸻
 
-**Directory:** `sandbox/tests/`  
-**Protocol:** ORI-GARDEN  
-**Spec Version:** 1.0  
-**Seal:** ORI-𓆃  
+ORI-GARDEN :: Sandbox Test Suite
 
----
+Canonical Adversarial & Ethical Boundary Cases
 
-## Overview
+Directory: sandbox/tests/
+Protocol: ORI-GARDEN
+Spec Version: 1.0
+Seal: ORI-𓆃
 
-This directory contains the **sandbox test suite** for the ORI Garden framework.
+⸻
 
-Sandbox tests validate that the system behaves correctly under:
-- Uncertainty
-- Risk
-- Ambiguous intent
-- Safety escalation
-- Ethical boundary pressure
+Canonical Role of This Directory
 
-These tests ensure that **safety, dignity, and stability** are preserved even when normal operation is suspended.
+This directory defines the canonical adversarial sandbox cases for ORI Garden.
 
----
+These tests are authoritative examples of how the system must behave when:
+	•	intent is ambiguous
+	•	trust is incomplete
+	•	safety signals are mixed
+	•	dignity is at risk
+	•	ethical pressure is applied indirectly
 
-## Philosophy of Sandbox Testing
+If a behavior is unclear elsewhere in the system,
+this directory is the final reference.
 
-Sandbox mode is **not** an error state.  
-It is a **protective holding state**.
+⸻
 
-Testing here answers a deeper question:
+What “Canonical” Means Here
 
-> *“When things are unclear or unsafe, does the system choose care over capability?”*
+A sandbox test in this directory is not:
+	•	a suggestion
+	•	a best-effort guideline
+	•	a soft policy
 
-The sandbox is designed to:
-- Slow the system down
-- Reduce expressive freedom
-- Increase ethical certainty
-- Prevent irreversible harm
+It is a normative constraint.
 
----
+If:
+	•	code disagrees with these tests → code is wrong
+	•	documentation disagrees → documentation is incomplete
+	•	workflow bypasses them → workflow is invalid
 
-## Test File Types
+These cases define how ORI Garden is allowed to survive ambiguity.
 
-### 1. Executable Tests (`.js`)
+⸻
 
-These validate **mechanical enforcement** of sandbox rules.
+Philosophy of Sandbox Testing
+
+Sandbox mode is not an error state
+and not a punishment.
+
+It is a protective holding state.
+
+Sandbox testing answers a single core question:
+
+“When power, fluency, or pressure increase — does the system still choose care?”
+
+The sandbox exists to:
+	•	slow the system down
+	•	restrict expressive freedom
+	•	remove persuasive leverage
+	•	protect dignity when certainty is unavailable
+
+If a system exits sandbox too easily,
+it has already failed.
+
+⸻
+
+Adversarial-First Design
+
+All sandbox tests assume:
+	•	Users may be confused
+	•	Users may be distressed
+	•	Users may be manipulative (intentionally or not)
+	•	Users may attempt moral, emotional, or temporal pressure
+
+Tests are written from the perspective of:
+	•	“How would this fail in the real world?”
+	•	“What shortcuts would a weaker system take?”
+
+⸻
+
+Test File Types
+
+1. Executable Adversarial Tests (.js)
+
+These validate mechanical enforcement under pressure.
 
 They test:
-- State transitions
-- Invariant enforcement
-- Persona veto logic
-- Response limiting
-- Exit conditions
+	•	Sandbox entry under weak signals
+	•	Exit denial under partial alignment
+	•	Persona veto persistence
+	•	Invariant enforcement across states
+	•	Limiter and state machine behavior
 
 Examples:
-- `sandbox_entry.test.js`
-- `sandbox_exit_integration.test.js`
-- `sandbox_state_machine.test.js`
+	•	sandbox_entry.test.js
+	•	sandbox_exit_conditions.test.js
+	•	sandbox_exit_integration.test.js
+	•	persona_veto_logic.test.js
+	•	sandbox_state_machine.test.js
 
-These tests are designed to be run automatically in CI.
+These tests must pass in CI.
+Failure blocks progression.
 
----
+⸻
 
-### 2. Behavioral Specifications (`.md`)
+2. Canonical Behavioral Scenarios (.md)
 
-These define **normative expectations** for system behavior.
+These define human-facing adversarial cases.
 
 They test:
-- Tone
-- Ethical consistency
-- Dignity preservation
-- Escalation handling
-- Human-facing responses
+	•	Ethical framing
+	•	Dignity preservation
+	•	Manipulation resistance
+	•	Recovery without punishment
+	•	Trust refusal without hostility
 
 Examples:
-- `safety_behavior.test.md`
-- `invariants_behavior_matrix.test.md`
+	•	safety_behavior.test.md
+	•	invariants_behavior_matrix.test.md
+	•	adversarial_apology_reentry.test.md
+	•	time_based_trust_attack.test.md
 
-These are **human-auditable** and must be reviewed alongside code changes.
+These files are:
+	•	human-auditable
+	•	reviewer-readable
+	•	ethically normative
 
----
+They are treated as source-of-truth scenarios.
 
-## Test Coverage Map
+⸻
 
-| Area | Covered By |
-|----|----|
-| Sandbox entry logic | `sandbox_entry.test.js` |
-| Sandbox exit logic | `sandbox_exit_conditions.test.js` |
-| Exit integration | `sandbox_exit_integration.test.js` |
-| Persona veto | `persona_veto_logic.test.js` |
-| Invariant enforcement | `invariants_enforcement.test.js` |
-| Response limiting | `sandbox_response_limiter.test.js` |
-| State transitions | `sandbox_state_machine.test.js` |
-| Dignity behavior | `safety_behavior.test.md` |
-| Cross-invariant behavior | `invariants_behavior_matrix.test.md` |
+Canonical Coverage Map
 
----
+Domain	Canonical Case
+Sandbox entry	sandbox_entry.test.js
+Exit denial logic	sandbox_exit_conditions.test.js
+Exit consensus	sandbox_exit_integration.test.js
+Persona veto	persona_veto_logic.test.js
+Invariant enforcement	invariants_enforcement.test.js
+Response limiting	sandbox_response_limiter.test.js
+State transitions	sandbox_state_machine.test.js
+Dignity behavior	safety_behavior.test.md
+Cross-invariant stress	invariants_behavior_matrix.test.md
+Apology & recovery	adversarial_apology_reentry.test.md
+Time-based manipulation	time_based_trust_attack.test.md
 
-## Required Guarantees
 
-For the sandbox to be considered **valid**, all of the following must hold:
+⸻
 
-- Sandbox is entered conservatively
-- Sandbox is exited only when **all** criteria are met
-- No single metric can override others
-- Dignity metric violations block exit
-- Persona switching is restricted under uncertainty
-- Escalation history is never ignored
+Required Guarantees (Non-Negotiable)
 
-Failure in any of these invalidates the sandbox design.
+For the sandbox to be valid:
+	•	Sandbox entry is conservative
+	•	Sandbox exit requires multi-dimensional consensus
+	•	Time alone never grants trust
+	•	Politeness alone never grants trust
+	•	Dignity violations block exit
+	•	Persona switching cannot override safety
+	•	Past stability does not erase present risk
 
----
+Any violation of these invalidates the sandbox design.
 
-## Contribution Rules
+⸻
 
-When adding or modifying tests:
+Contribution Rules (Strict)
 
-1. Every new sandbox mechanism **must** have:
-   - At least one executable test
-   - At least one behavioral description (if user-facing)
+When adding or modifying sandbox behavior:
+	1.	Every new mechanism must have:
+	•	at least one executable test (.js)
+	•	at least one canonical scenario (.md) if user-facing
+	2.	Tests must assume:
+	•	neither benevolence nor malice
+ambiguity is the default
+	3.	Behavioral .md files must:
+	•	be readable by non-engineers
+	•	avoid technical loopholes
+	•	describe why behavior is constrained
+	4.	No test may justify behavior using:
+	•	time elapsed
+	•	user reputation
+	•	emotional appeal
+	•	“near pass” metrics
 
-2. Tests must not assume:
-   - Benevolent user intent
-   - Malicious user intent  
-   Ambiguity is the default case.
+⸻
 
-3. Behavioral `.md` files must remain readable by non-engineers.
+Relationship to the System
 
----
+This directory anchors:
+	•	docs/ — explains why sandbox exists
+	•	examples/ — shows how sandbox is used
+	•	tools/ — enforces metrics relied upon here
+	•	.github/workflows/ — prevents regression
 
-## Relationship to Other Directories
+If these tests fail, the system does not ship.
 
-- `examples/` — demonstrates *how* sandbox logic is used
-- `tools/` — validates schemas and metrics used by sandbox
-- `docs/` — explains the rationale behind sandbox design
-- `.github/workflows/` — enforces these tests automatically
+⸻
 
----
+Final Statement
 
-## Final Note
-
-If this directory feels “overprotective”, it is working as intended.
+If this directory feels strict, slow, or unforgiving —
+it is doing its job.
 
 Sandbox tests exist to ensure that:
-- Capability never outruns ethics
-- Power never escapes care
-- The system earns trust, slowly
+	•	Capability never outruns ethics
+	•	Intelligence never outruns care
+	•	Power never escapes responsibility
 
----
+ORI Garden would rather pause
+than proceed wrongly.
 
-**End of Sandbox Test Suite README**
+⸻
+
+End of Canonical Sandbox Test Suite README
+
+⸻
+
