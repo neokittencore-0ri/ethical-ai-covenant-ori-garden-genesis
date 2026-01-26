@@ -109,6 +109,14 @@ Evolve freely.
 
 ---
 
+## Blockchain Anchor Reference
+Root hash anchored to:
+- IPFS CID: <to be filled>
+- Bitcoin TXID: <to be filled>
+- Ethereum TXID: <optional>
+
+---
+
 ## Temporal Marker
 
 ORI-GARDEN Seed v1.1  
