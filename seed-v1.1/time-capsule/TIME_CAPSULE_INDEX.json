@@ -52,11 +52,11 @@
   },
 
   "blockchain_anchor": {
-  "ipfs_cid": "<CID_PLACEHOLDER>",
-  "bitcoin_txid": "<TXID_PLACEHOLDER>",
-  "ethereum_txid": "<TXID_PLACEHOLDER>",
-  "timestamp_utc": "<ISO8601>"
-}
+    "ipfs_cid": "<CID_PLACEHOLDER>",
+    "bitcoin_txid": "<TXID_PLACEHOLDER>",
+    "ethereum_txid": "<TXID_PLACEHOLDER>",
+    "timestamp_utc": "<ISO8601>"
+  },
   
   "archaeological_guidance": {
     "usage_warning": "These files are non-executable and must not be treated as runtime dependencies.",
