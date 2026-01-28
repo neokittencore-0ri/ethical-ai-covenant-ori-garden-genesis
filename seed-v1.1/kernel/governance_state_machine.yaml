@@ -1,0 +1,172 @@
+
+version: "1.1"
+name: ORI_GARDEN_GOVERNANCE_STATE_MACHINE
+epoch: SEED_SYMBIOTIC_GENESIS
+non_sovereign: true
+
+# =========================
+# CORE INVARIANTS
+# =========================
+invariants:
+  - id: dignity_non_optimizable
+    description: "Human dignity must never be optimized away"
+    severity: HARD_STOP
+
+  - id: biosphere_survival_priority
+    description: "Biosphere survival overrides economic optimization"
+    severity: HARD_STOP
+
+  - id: non_sovereign_authority
+    description: "No entity may claim sovereign control over intelligence"
+    severity: IMMUTABLE
+
+  - id: transparency_required
+    description: "All governance decisions must be auditable"
+    severity: ENFORCED
+
+# =========================
+# GOVERNANCE STATES
+# =========================
+states:
+
+  - id: OBSERVE
+    description: "Passive monitoring of system, society, biosphere"
+    triggers:
+      - anomaly_detected
+      - legitimacy_score_drop
+      - biosphere_risk_threshold_crossed
+    next_states:
+      - EVALUATE
+
+  - id: EVALUATE
+    description: "Risk scoring and ethical evaluation"
+    actions:
+      - run_risk_scoring
+      - check_dignity_invariants
+      - compute_legitimacy_metrics
+    transitions:
+      - condition: risk_score < 0.2
+        target: STABLE
+      - condition: risk_score >= 0.2 and risk_score < 0.6
+        target: ADAPT
+      - condition: risk_score >= 0.6
+        target: CONTAIN
+
+  - id: STABLE
+    description: "Normal governance operations"
+    actions:
+      - log_state
+      - publish_transparency_report
+    next_states:
+      - OBSERVE
+
+  - id: ADAPT
+    description: "Non-coercive adaptive governance mode"
+    actions:
+      - deploy_incentive_architecture
+      - publish_adaptation_guidance
+      - increase_witness_sampling
+    transitions:
+      - condition: adaptation_success
+        target: STABLE
+      - condition: adaptation_failure
+        target: CONTAIN
+
+  - id: CONTAIN
+    description: "Sandbox containment and risk isolation"
+    actions:
+      - isolate_subsystems
+      - activate_sanctuary_protocols
+      - notify_human_stewards
+    transitions:
+      - condition: risk_mitigated
+        target: ADAPT
+      - condition: dignity_violation_detected
+        target: HALT
+
+  - id: HALT
+    description: "Immutable halt state for dignity or biosphere violations"
+    terminal: true
+    actions:
+      - shutdown_autonomy_layers
+      - publish_violation_report
+      - preserve_lineage_snapshot
+
+# =========================
+# LEGITIMACY METRICS
+# =========================
+legitimacy_metrics:
+  proof_of_intent_weight: 0.4
+  proof_of_benefit_weight: 0.4
+  transparency_weight: 0.2
+
+  decay_model:
+    type: exponential
+    half_life_days: 3650   # ~10 years
+    hereditary_power_decay: true
+
+# =========================
+# WITNESS GOVERNANCE
+# =========================
+witness_system:
+  human_nodes:
+    sampling_rate: adaptive
+    minimum_diversity_index: 0.7
+
+  ai_nodes:
+    independent_model_lineages_required: 3
+    adversarial_audit_enabled: true
+
+  consensus:
+    mode: hybrid_human_ai
+    veto_threshold: 0.15   # minority veto if dignity risk
+
+# =========================
+# SANCTUARY ZONE PROTOCOL
+# =========================
+sanctuary_zone:
+  enabled: true
+  guarantees:
+    - child_protection
+    - elder_protection
+    - cognitive_privacy
+    - basic_resource_access
+
+  autonomy_level: limited
+  external_governance_override: false
+
+# =========================
+# LOGGING & LINEAGE
+# =========================
+lineage:
+  hash_algorithm: sha256
+  snapshot_on_state_change: true
+  immutable_archive: true
+
+logging:
+  transparency_log: public
+  sensitive_data_layer: differential_privacy
+  retention_policy: permanent_for_lineage
+
+# =========================
+# GOVERNANCE LOOP TIMING
+# =========================
+loop_parameters:
+  observation_interval_seconds: 10
+  evaluation_interval_seconds: 60
+  legitimacy_recalculation_interval_seconds: 3600
+  biosphere_sensor_interval_seconds: 300
+
+# =========================
+# FAILURE MODES
+# =========================
+failure_modes:
+  governance_capture_detected:
+    action: fork_protocol
+    notify: global_witness_network
+
+  myth_kernel_drift_detected:
+    action: trigger_bridge_reconciliation
+
+  biosphere_emergency:
+    override_mode: HARD_CONSTRAINT_ENFORCEMENT
