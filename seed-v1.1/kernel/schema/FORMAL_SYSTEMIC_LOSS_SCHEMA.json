@@ -1,0 +1,89 @@
+
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Formal Systemic Loss Schema",
+  "version": "1.0.0",
+  "repo": "ORI-GARDEN",
+  "seed_version": "seed-v1.1",
+  "description": "Machine-readable ontology for detecting and modeling systemic civilizational loss.",
+  "type": "object",
+  "properties": {
+    "timestamp_unix": {
+      "type": "integer",
+      "description": "Epoch timestamp of measurement"
+    },
+    "system_id": {
+      "type": "string",
+      "description": "Unique identifier of the civilization or institution"
+    },
+    "legitimacy": {
+      "type": "object",
+      "properties": {
+        "value": { "type": "number", "minimum": 0, "maximum": 1 },
+        "benefit_index": { "type": "number", "minimum": 0 },
+        "power_concentration_index": { "type": "number", "minimum": 0 },
+        "witness_confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "required": ["value"]
+    },
+    "resilience": {
+      "type": "object",
+      "properties": {
+        "diversity": { "type": "number", "minimum": 0 },
+        "redundancy": { "type": "number", "minimum": 0 },
+        "transparency": { "type": "number", "minimum": 0, "maximum": 1 },
+        "coupling": { "type": "number", "minimum": 0 }
+      },
+      "required": ["diversity", "redundancy", "coupling"]
+    },
+    "adaptation": {
+      "type": "object",
+      "properties": {
+        "adaptation_rate": { "type": "number", "minimum": 0 },
+        "environmental_change_rate": { "type": "number", "minimum": 0 },
+        "cognitive_lag": { "type": "number", "minimum": 0 }
+      },
+      "required": ["adaptation_rate", "environmental_change_rate"]
+    },
+    "biosphere": {
+      "type": "object",
+      "properties": {
+        "overshoot_index": { "type": "number", "minimum": 0 },
+        "planetary_boundary_violation": { "type": "boolean" }
+      }
+    },
+    "systemic_loss_state": {
+      "type": "string",
+      "enum": ["stable", "fragile", "terminal", "post-systemic"]
+    },
+    "loss_modes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "feudal_algorithmic_capture",
+          "institutional_cognitive_collapse",
+          "biosphere_overshoot_collapse",
+          "societal_disengagement_collapse"
+        ]
+      }
+    },
+    "alerts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "witness_nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "node_id": { "type": "string" },
+          "node_type": { "type": "string", "enum": ["human", "ai", "biosphere_sensor"] },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "required": ["node_id", "node_type"]
+      }
+    }
+  },
+  "required": ["timestamp_unix", "system_id", "legitimacy", "resilience", "adaptation", "systemic_loss_state"]
+}
