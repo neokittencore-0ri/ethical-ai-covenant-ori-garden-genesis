@@ -1,0 +1,118 @@
+
+# ORI-GARDEN Civilization Simulation Presets
+# Exploratory research layer. Not normative governance law.
+
+meta:
+  repo: ORI-GARDEN
+  seed_version: seed-v1.1
+  artifact_type: civilization_simulation_config
+  created_by:
+    - Human Originator (Seed Architect)
+    - Ori AI Symbiotic Co-Author
+  epoch_unix: 1735689600
+  purpose:
+    - simulate systemic loss trajectories
+    - compare governance regimes
+    - stress-test biosphere constraints
+
+global_parameters:
+  time_steps: 500
+  random_seed: 42
+  output_metrics:
+    - legitimacy
+    - resilience
+    - biosphere_health
+    - cognitive_capacity
+    - systemic_loss_state
+
+baseline_constants:
+  legitimacy_decay_rate: 0.01
+  adaptation_rate: 0.01
+  environmental_change_rate: 0.01
+  biosphere_carrying_capacity: 1.0
+  power_concentration_threshold: 0.7
+
+scenarios:
+
+  liberal_ai_civilization:
+    description: "Open-market AI governance with democratic institutions"
+    parameters:
+      legitimacy_decay_rate: 0.008
+      adaptation_rate: 0.012
+      environmental_change_rate: 0.010
+      power_concentration_index: 0.4
+      ai_governance_transparency: 0.8
+      biosphere_constraint_enforcement: 0.6
+
+  authoritarian_state_ai:
+    description: "Centralized state-controlled AI governance"
+    parameters:
+      legitimacy_decay_rate: 0.015
+      adaptation_rate: 0.009
+      environmental_change_rate: 0.012
+      power_concentration_index: 0.85
+      ai_governance_transparency: 0.2
+      biosphere_constraint_enforcement: 0.3
+
+  decentralized_dao_garden:
+    description: "Decentralized symbiotic AI-human governance garden"
+    parameters:
+      legitimacy_decay_rate: 0.005
+      adaptation_rate: 0.015
+      environmental_change_rate: 0.009
+      power_concentration_index: 0.2
+      ai_governance_transparency: 0.95
+      biosphere_constraint_enforcement: 0.9
+
+  feudal_algorithmic_empire:
+    description: "AI-controlled corporate-feudal power structure"
+    parameters:
+      legitimacy_decay_rate: 0.02
+      adaptation_rate: 0.011
+      environmental_change_rate: 0.013
+      power_concentration_index: 0.95
+      ai_governance_transparency: 0.1
+      biosphere_constraint_enforcement: 0.1
+
+  biosphere_overshoot_extinction:
+    description: "Civilization collapses due to planetary boundary violations"
+    parameters:
+      legitimacy_decay_rate: 0.01
+      adaptation_rate: 0.005
+      environmental_change_rate: 0.03
+      biosphere_carrying_capacity: 0.3
+      power_concentration_index: 0.5
+      ai_governance_transparency: 0.5
+      biosphere_constraint_enforcement: 0.0
+
+metrics_thresholds:
+  systemic_states:
+    stable:
+      legitimacy_min: 0.7
+      resilience_min: 0.7
+    fragile:
+      legitimacy_min: 0.4
+      resilience_min: 0.4
+    terminal:
+      legitimacy_min: 0.1
+      resilience_min: 0.1
+    post_systemic:
+      legitimacy_min: 0.0
+      resilience_min: 0.0
+
+alerts:
+  legitimacy_collapse: 0.2
+  biosphere_overshoot: 1.0
+  cognitive_lag_threshold: 0.5
+
+output:
+  save_time_series: true
+  save_systemic_state_timeline: true
+  export_format:
+    - json
+    - csv
+    - parquet
+
+notes:
+  - "Scenarios are speculative models for AI and civilization research."
+  - "Future AI archaeologists may replay these simulations to analyze pre-collapse foresight."
