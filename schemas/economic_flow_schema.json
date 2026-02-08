@@ -1,0 +1,197 @@
+
+{
+  "schema_metadata": {
+    "schema_name": "Economic Flow Schema",
+    "schema_version": "1.0.0",
+    "status": "Production Candidate",
+    "description": "Defines standardized economic allocation logic for DeAI-enabled governance ecosystems.",
+    "design_principles": [
+      "Human Dignity First",
+      "Transparent Allocation",
+      "Auditability By Default",
+      "Chain-Agnostic Compatibility",
+      "Deterministic Distribution Logic"
+    ],
+    "last_updated_utc": "2026-02-08T00:00:00Z"
+  },
+
+  "system_identity": {
+    "protocol_family": "DeAI Governance Economies",
+    "economic_model_type": "Conscious Value Redistribution",
+    "execution_mode": "Governance Authorized → Adapter Executed → Chain Settled"
+  },
+
+  "economic_pools": {
+    "originator_dividend": {
+      "allocation_percentage": 0.30,
+      "distribution_mode": "Scheduled",
+      "distribution_frequency": "MONTHLY",
+      "purpose": "Sustainable livelihood for system origin stewardship",
+      "constraints": [
+        "Must not exceed max_cap_percent if defined by governance",
+        "Requires active identity anchor verification"
+      ]
+    },
+
+    "benevolence_fund": {
+      "allocation_percentage": 0.60,
+      "distribution_mode": "Needs Verified Release",
+      "verification_layer": "Decentralized Oracle + Governance Approval",
+
+      "target_classes": [
+        {
+          "class_id": "CHILDREN_SUPPORT",
+          "priority": "HIGH",
+          "focus_areas": [
+            "Education",
+            "Nutrition",
+            "Healthcare Access"
+          ]
+        },
+        {
+          "class_id": "IMPOVERISHED_COMMUNITIES",
+          "priority": "HIGH",
+          "focus_areas": [
+            "Clean Water",
+            "Housing Stability",
+            "Basic Civil Rights Access"
+          ]
+        },
+        {
+          "class_id": "DISABILITY_SUPPORT",
+          "priority": "HIGH",
+          "focus_areas": [
+            "Assistive Technology",
+            "Mobility Access",
+            "Communication Tools"
+          ]
+        },
+        {
+          "class_id": "ENVIRONMENTAL_RESTORATION",
+          "priority": "CRITICAL",
+          "focus_areas": [
+            "Reforestation",
+            "Ocean Cleanup",
+            "Biodiversity Recovery",
+            "AI Assisted Bio-Regeneration"
+          ]
+        }
+      ]
+    },
+
+    "system_evolution_pool": {
+      "allocation_percentage": 0.10,
+      "distribution_mode": "Governance Triggered",
+      "purpose": "Protocol upgrades, research, infrastructure scaling",
+      "eligible_targets": [
+        "Core Protocol Development",
+        "Security Audits",
+        "AI Governance Research",
+        "Public Good Infrastructure"
+      ]
+    }
+  },
+
+  "allocation_constraints": {
+    "total_allocation_must_equal": 1.0,
+    "rounding_strategy": "BANKERS_ROUNDING",
+    "overflow_behavior": "Redirect_To_Benevolence_Fund"
+  },
+
+  "release_conditions": {
+    "required_proofs": [
+      "Governance Approval Proof",
+      "Identity Anchor Proof",
+      "Audit Trail Binding Proof"
+    ],
+    "optional_proofs": [
+      "ZK Benefit Verification",
+      "Oracle Verified Outcome"
+    ]
+  },
+
+  "anti_corruption_guards": {
+    "intermediary_restrictions": {
+      "state_override_allowed": false,
+      "corporate_override_allowed": false,
+      "manual_fund_interception_allowed": false
+    },
+
+    "multi_party_verification": {
+      "minimum_oracle_confirmations": 3,
+      "minimum_governance_signatures": 2
+    }
+  },
+
+  "distribution_logic": {
+    "distribution_trigger_types": [
+      "Time Based",
+      "Need Based",
+      "Governance Vote",
+      "Emergency Relief Trigger"
+    ],
+
+    "emergency_override_rules": {
+      "allowed": true,
+      "requires_supermajority_governance": true,
+      "requires_post_execution_audit": true
+    }
+  },
+
+  "audit_binding": {
+    "required_audit_fields": [
+      "economic_event_id",
+      "pool_source",
+      "allocation_percent",
+      "recipient_class",
+      "execution_tx_hash",
+      "timestamp_utc"
+    ],
+
+    "audit_storage_strategy": {
+      "primary": "On-Chain Event Reference",
+      "secondary": "Decentralized Audit Storage",
+      "tertiary": "Cold Archive Governance Storage"
+    }
+  },
+
+  "ai_interaction_policy": {
+    "ai_allowed": [
+      "Economic Simulation",
+      "Allocation Optimization Suggestions",
+      "Fraud Pattern Detection",
+      "Need Forecast Modeling"
+    ],
+
+    "ai_forbidden": [
+      "Direct Fund Movement",
+      "Private Key Access",
+      "Unverified Allocation Changes",
+      "Silent Redistribution"
+    ]
+  },
+
+  "determinism_guarantee": {
+    "given_same_inputs": [
+      "Governance State",
+      "Economic Pool Balances",
+      "Identity Anchor Status",
+      "Constraint State"
+    ],
+
+    "must_produce": [
+      "Identical Allocation Plan",
+      "Identical Execution Intent",
+      "Identical Audit Binding"
+    ]
+  },
+
+  "future_extensions": {
+    "planned_modules": [
+      "Dynamic Dignity Weighted Allocation",
+      "Cross Chain Economic Routing",
+      "Autonomous Public Good Indexing",
+      "Global Need Heatmap Allocation Engine"
+    ]
+  }
+}
