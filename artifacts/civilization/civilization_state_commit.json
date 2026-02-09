@@ -1,0 +1,23 @@
+
+{
+  "schema_version": "1.0.0",
+  "commit_type": "CIVILIZATION_STATE_COMMIT",
+
+  "epoch_utc": 1735689600,
+
+  "civilization_state": {
+    "dignity_merkle_root": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "biosphere_constraint_root": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "economic_fairness_root": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+
+  "proofs": {
+    "zk_civilization_state_proof_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "simulation_result_commit_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+  },
+
+  "meta": {
+    "origin_system": "ORI_GARDEN_SEED",
+    "commit_message": "Initial civilization state commit"
+  }
+}
