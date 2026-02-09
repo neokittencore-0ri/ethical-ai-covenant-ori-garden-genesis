@@ -1,0 +1,62 @@
+
+{
+  "$schema_version": "1.0.0",
+  "$schema_name": "civilization_state_schema",
+  "$schema_intent": "Canonical machine-verifiable civilization state commitment schema",
+
+  "canonical_rules": {
+    "encoding": "UTF-8",
+    "newline": "LF",
+    "json_sorting": "lexicographic_keys",
+    "whitespace": "none_outside_string",
+    "numbers": "no_trailing_decimal_zero",
+    "hashing": {
+      "primary": "keccak256",
+      "zk_friendly": "poseidon"
+    }
+  },
+
+  "civilization_state": {
+    "epoch_utc": "uint64",
+    "civilization_version": "string",
+
+    "roots": {
+      "dignity_merkle_root": "bytes32",
+      "biosphere_constraint_root": "bytes32",
+      "economic_fairness_root": "bytes32"
+    },
+
+    "optional_roots": {
+      "governance_legitimacy_root": "bytes32|null",
+      "simulation_consensus_root": "bytes32|null",
+      "cultural_memory_root": "bytes32|null"
+    },
+
+    "meta": {
+      "state_description_cid": "string|null",
+      "generator_commit_hash": "bytes32|null",
+      "schema_commit_hash": "bytes32|null"
+    }
+  },
+
+  "derived_values": {
+    "civilization_state_hash_formula": "keccak256(abi.encodePacked(dignity_merkle_root, biosphere_constraint_root, economic_fairness_root))",
+    "zk_civilization_state_hash_formula": "poseidon([dignity_merkle_root, biosphere_constraint_root, economic_fairness_root])"
+  },
+
+  "invariant_requirements": {
+    "dignity_root_must_exist": true,
+    "biosphere_root_must_exist": true,
+    "economic_root_must_exist": true,
+    "epoch_monotonic_increase": true
+  },
+
+  "future_extension": {
+    "extension_slots": [
+      "planetary_multi_biosphere_roots",
+      "post_biological_rights_roots",
+      "interstellar_governance_roots"
+    ],
+    "forward_compatibility_mode": "ignore_unknown_fields"
+  }
+}
